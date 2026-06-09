@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# StaffySoft Portfolio
 
-## Getting Started
+Public homepage for [Staffordshire Software](https://github.com/Staffordshire-Software). Lists every shipped product with two CTAs per entry: **Try it** (sign up fresh) and **Add to my account** (existing StaffySoft Core users).
 
-First, run the development server:
+Master portfolio board: https://github.com/orgs/Staffordshire-Software/projects/7
+
+## Stack
+
+- Next.js (App Router) — static export
+- TypeScript
+- Tailwind CSS
+- Deploy: Vercel primary, GitHub Pages as fallback
+
+## Local dev
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Adding a product
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Product entries live in `data/products.ts` (to be created during the initial build PR). Each entry follows the `Product` type — see that file for the full schema. After adding, open a PR; merging to `main` deploys via Vercel.
 
-## Learn More
+## Deploy
 
-To learn more about Next.js, take a look at the following resources:
+### Vercel (primary)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Import the repo at https://vercel.com/new
+2. Framework is auto-detected as Next.js — no env vars needed for the static site
+3. Production branch: `main`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### GitHub Pages (fallback)
 
-## Deploy on Vercel
+```bash
+npm run build
+# Static output lands in ./out (configured via next.config.ts)
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Push `./out` to the `gh-pages` branch, or use a GitHub Action workflow.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Integrations
+
+- **StaffySoft Core** (auth/entitlements): https://github.com/Staffordshire-Software/core — `addToAccountUrl` on each product points to Core's `/add?product=ID` endpoint. Stubbed until Core ships.

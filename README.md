@@ -69,11 +69,16 @@ components/             ← ProductCard, StatusBadge, Hero, CategoryGrid
 ```bash
 npm run build     # writes the static site to ./out
 npm run export    # sanity-checks that ./out was produced
+npm run serve     # serve ./out locally to preview the production build
 ```
 
 > Note: Next.js 14+ has no separate `next export` step. Setting
 > `output: "export"` in `next.config.ts` makes `next build` emit `./out`
 > directly. `npm run export` just verifies that output exists.
+>
+> There is no `next start`: that command can't serve an `output: "export"`
+> build. Use `npm run serve` (a static file server over `./out`) to preview
+> the production build locally.
 
 ## Deploy
 

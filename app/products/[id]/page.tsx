@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -71,6 +72,8 @@ export default async function ProductPage({ params }: PageParams) {
             ) : (
               <a
                 href={product.signupUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-bright"
               >
                 Try it / Sign up
@@ -78,17 +81,50 @@ export default async function ProductPage({ params }: PageParams) {
             )}
             <a
               href={product.addToAccountUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="rounded-lg border border-border px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-surface-2"
             >
               Add to my StaffySoft account
             </a>
             <a
               href={product.productUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="rounded-lg px-5 py-2.5 text-sm font-semibold text-muted transition-colors hover:text-foreground"
             >
               Visit site ↗
             </a>
           </div>
+        </div>
+      </div>
+
+      {/* Screenshot — full width near the top, large enough to demo the UI. */}
+      <div className="mx-auto max-w-5xl px-6 pt-10">
+        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border bg-surface-2">
+          {product.hero ? (
+            <Image
+              src={product.hero}
+              alt={`${product.name} screenshot`}
+              fill
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              className="object-cover"
+              priority
+            />
+          ) : (
+            <span className="glow flex h-full flex-col items-center justify-center gap-3 bg-gradient-to-br from-surface to-surface-2">
+              <Image
+                src="/staffysoft-logo.jpg"
+                alt=""
+                width={80}
+                height={80}
+                className="rounded-xl opacity-60"
+              />
+              <span className="font-mono text-sm text-muted/70">
+                {product.name} — coming soon
+              </span>
+            </span>
+          )}
         </div>
       </div>
 
@@ -101,16 +137,6 @@ export default async function ProductPage({ params }: PageParams) {
           <p className="mt-4 text-lg leading-relaxed text-foreground/90">
             {product.description}
           </p>
-
-          {/* Screenshot placeholder — swap for a real image under /public
-              by setting `hero` on the product. */}
-          <div className="mt-10 aspect-video w-full overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-surface to-surface-2">
-            <div className="glow flex h-full items-center justify-center">
-              <span className="font-mono text-sm text-muted/70">
-                {product.name} — screenshot coming soon
-              </span>
-            </div>
-          </div>
         </div>
 
         <aside className="md:w-48">

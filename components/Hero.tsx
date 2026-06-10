@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@/data/products";
 import StatusBadge from "./StatusBadge";
@@ -11,6 +12,14 @@ export default function Hero({ featured }: { featured: Product }) {
     <section className="glow border-b border-border/60">
       <div className="mx-auto grid max-w-5xl gap-12 px-6 py-20 lg:grid-cols-2 lg:items-center lg:py-28">
         <div>
+          <Image
+            src="/staffysoft-logo.jpg"
+            alt="StaffySoft logo"
+            width={140}
+            height={140}
+            className="mb-6 rounded-2xl shadow-xl shadow-brand/20"
+            priority
+          />
           <p className="text-sm font-medium uppercase tracking-widest text-brand-bright">
             Staffordshire Software
           </p>

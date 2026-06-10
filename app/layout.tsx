@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Image from "next/image";
 import Link from "next/link";
 import "./globals.css";
 
@@ -26,6 +27,7 @@ export const metadata: Metadata = {
     description:
       "Browse every product StaffySoft has shipped. Sign up fresh, or add one to your existing account.",
     type: "website",
+    images: ["/staffysoft-logo.jpg"],
   },
 };
 
@@ -34,9 +36,14 @@ function SiteHeader() {
     <header className="sticky top-0 z-20 border-b border-border/60 bg-background/80 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         <Link href="/" className="group flex items-center gap-2.5">
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand font-mono text-sm font-bold text-white shadow-lg shadow-brand/30">
-            S
-          </span>
+          <Image
+            src="/staffysoft-logo.jpg"
+            alt="StaffySoft logo"
+            width={36}
+            height={36}
+            className="rounded-lg shadow-lg shadow-brand/20"
+            priority
+          />
           <span className="text-base font-semibold tracking-tight">
             Staffy<span className="text-brand-bright">Soft</span>
           </span>

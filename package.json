@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "export": "node scripts/check-export.mjs",
+    "serve": "npx serve@latest out",
     "lint": "eslint"
   },
   "dependencies": {

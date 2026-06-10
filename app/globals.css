@@ -1,26 +1,43 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-background: #0b0b0f;
+  --color-surface: #14141b;
+  --color-surface-2: #1c1c26;
+  --color-border: #2a2a37;
+  --color-foreground: #ededf2;
+  --color-muted: #a1a1b5;
+
+  /* StaffySoft brand accent — a warm electric violet. */
+  --color-brand: #8b5cf6;
+  --color-brand-bright: #a78bfa;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle ambient glow used behind hero sections. */
+.glow {
+  background-image:
+    radial-gradient(
+      40rem 30rem at 75% -10%,
+      color-mix(in oklab, var(--color-brand) 22%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      30rem 24rem at 0% 10%,
+      color-mix(in oklab, var(--color-brand-bright) 12%, transparent),
+      transparent
+    );
 }

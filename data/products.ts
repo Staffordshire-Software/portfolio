@@ -6,6 +6,10 @@ import { addToAccountUrl } from "@/lib/core";
 // below and open a PR. No code changes are needed elsewhere — pages, the
 // category grid, and the per-product routes are all generated from this
 // list at build time. See README.md ("Adding a product") for the checklist.
+//
+// Each product lives at `<product>.staffysoft.com` (see README, "Product
+// subdomains"). `productUrl`/`signupUrl` reference that subdomain; the DNS +
+// Vercel wiring is handled outside this repo.
 
 export type ProductCategory =
   | "Music"
@@ -44,6 +48,11 @@ export type Product = {
   addToAccountUrl: string;
   /** Optional short pricing note, e.g. "Free tier + $6/mo Pro". */
   pricingNote?: string;
+  /**
+   * Pin this product as the homepage hero, regardless of status/date.
+   * At most one product should set this; the first match wins.
+   */
+  featured?: boolean;
 };
 
 export const products: Product[] = [
@@ -52,42 +61,57 @@ export const products: Product[] = [
     name: "ToneConditioner",
     tagline: "Sessions that save your work and pick up where you left off.",
     description:
-      "ToneGrid gets you started. ToneConditioner keeps you going — with longer sessions, saved progress, and an account that remembers everything.",
+      "ToneGrid gets you started. ToneConditioner keeps you going — with longer sessions, saved progress, and an account that remembers everything. Practice ear training and tone work across devices without losing your place.",
     category: "Music",
-    status: "live",
+    status: "beta",
     launchedAt: "2026-06-01",
     hero: "/products/tonesmith.png",
-    productUrl: "https://tonesmith.vercel.app",
-    signupUrl: "https://tonesmith.vercel.app",
+    productUrl: "https://toneconditioner.staffysoft.com",
+    signupUrl: "https://toneconditioner.staffysoft.com",
     addToAccountUrl: addToAccountUrl("tone-conditioner"),
+    featured: true,
   },
   {
     id: "performer-prompter",
     name: "Performer Prompter",
     tagline: "Paste. Record. Post. Lyrics and scripts on stage.",
     description:
-      "A teleprompter built for performers — paste your lyrics or script, tune the scroll speed and font size, hit record. No saved scripts get lost.",
+      "A teleprompter built for performers — paste your lyrics or script, tune the scroll speed and font size, and hit record. Designed for the stage and the studio so nothing you need to read ever scrolls out of reach.",
     category: "Music",
-    status: "live",
+    status: "beta",
     launchedAt: "2026-06-01",
     hero: "/products/performer-prompter.png",
-    productUrl: "https://performer-prompter.vercel.app",
-    signupUrl: "https://performer-prompter.vercel.app",
+    productUrl: "https://performerprompter.staffysoft.com",
+    signupUrl: "https://performerprompter.staffysoft.com",
     addToAccountUrl: addToAccountUrl("performer-prompter"),
   },
   {
-    id: "lattice",
-    name: "Lattice",
-    tagline: "AI-powered workspace for diving deep into any research topic.",
+    id: "voice-note-atomizer",
+    name: "Voice Note Atomizer",
+    tagline: "Turn voice notes into structured, searchable snippets.",
     description:
-      "Lattice turns scattered research into a structured, searchable workspace — feed in articles, walkthroughs, and notes, and let the AI surface connections.",
-    category: "Tools",
-    status: "live",
+      "Drop in a long voice note and get back individual ideas, tasks, and quotes — each one its own atom you can search, file, and act on. Stop scrubbing through rambling recordings to find the one thing you said.",
+    category: "Productivity",
+    status: "beta",
     launchedAt: "2026-06-01",
-    hero: "/products/lattice.png",
-    productUrl: "https://lattice.vercel.app",
-    signupUrl: "https://lattice.vercel.app",
-    addToAccountUrl: addToAccountUrl("lattice"),
+    hero: "/products/voice-note-atomizer.png",
+    productUrl: "https://voicenoteatomizer.staffysoft.com",
+    signupUrl: "https://voicenoteatomizer.staffysoft.com",
+    addToAccountUrl: addToAccountUrl("voice-note-atomizer"),
+  },
+  {
+    id: "interview-lifeguard",
+    name: "Interview Lifeguard",
+    tagline: "Interview support for neurodivergent engineers under pressure.",
+    description:
+      "A tool to help neurodivergent folks navigate high-pressure interviews — especially the programming ones — without freezing. Quiet, in-the-moment scaffolding so the interview tests what you know, not how well you handle the panic.",
+    category: "Productivity",
+    status: "beta",
+    launchedAt: "2026-06-01",
+    hero: "/products/interview-lifeguard.png",
+    productUrl: "https://interviewlifeguard.staffysoft.com",
+    signupUrl: "https://interviewlifeguard.staffysoft.com",
+    addToAccountUrl: addToAccountUrl("interview-lifeguard"),
   },
   {
     id: "dans-music-studio",
@@ -103,45 +127,6 @@ export const products: Product[] = [
     productUrl: "https://dansmusicstudiocom.vercel.app",
     signupUrl: "https://dansmusicstudiocom.vercel.app",
     addToAccountUrl: addToAccountUrl("dans-music-studio"),
-  },
-  {
-    id: "interview-lifeguard",
-    name: "Interview Lifeguard",
-    tagline: "Interview support for neurodivergent engineers under pressure.",
-    description:
-      "A tool to help neurodivergent folks navigate high-pressure interviews — especially the programming ones — without freezing.",
-    category: "Productivity",
-    status: "coming-soon",
-    launchedAt: "2026-06-01",
-    productUrl: "https://github.com/Staffordshire-Software/interview-lifeguard",
-    signupUrl: "https://github.com/Staffordshire-Software/interview-lifeguard",
-    addToAccountUrl: addToAccountUrl("interview-lifeguard"),
-  },
-  {
-    id: "voice-note-atomizer",
-    name: "Voice Note Atomizer",
-    tagline: "Turn voice notes into structured, searchable snippets.",
-    description:
-      "Drop in a long voice note; get back individual ideas, tasks, and quotes — each one its own thing.",
-    category: "Productivity",
-    status: "coming-soon",
-    launchedAt: "2026-06-01",
-    productUrl: "https://github.com/Staffordshire-Software/voice-note-atomizer",
-    signupUrl: "https://github.com/Staffordshire-Software/voice-note-atomizer",
-    addToAccountUrl: addToAccountUrl("voice-note-atomizer"),
-  },
-  {
-    id: "teacher-presell",
-    name: "Teacher Presell",
-    tagline: "Landing page tooling for educators selling their first program.",
-    description:
-      "Spin up a presell page for a workshop, course, or program before the platform is built — gauge demand, take signups, learn what to ship.",
-    category: "Education",
-    status: "coming-soon",
-    launchedAt: "2026-06-01",
-    productUrl: "https://github.com/Staffordshire-Software/teacher-presell",
-    signupUrl: "https://github.com/Staffordshire-Software/teacher-presell",
-    addToAccountUrl: addToAccountUrl("teacher-presell"),
   },
 ];
 
@@ -173,8 +158,14 @@ export function productsByCategory(
   })).filter((group) => group.items.length > 0);
 }
 
-/** The product to feature in the hero — newest live product, else newest. */
+/**
+ * The product to feature in the hero. An explicit `featured` flag wins;
+ * otherwise the newest live product, else the newest overall.
+ */
 export function featuredProduct(list: Product[] = products): Product {
+  const pinned = list.find((p) => p.featured);
+  if (pinned) return pinned;
+
   const byNewest = [...list].sort(
     (a, b) => Date.parse(b.launchedAt) - Date.parse(a.launchedAt),
   );

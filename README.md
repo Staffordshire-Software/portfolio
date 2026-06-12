@@ -48,8 +48,8 @@ components/             ← ProductCard, StatusBadge, Hero, CategoryGrid
      category: "Tools",           // Music | Productivity | Education | Business Ops | Tools | Other
      status: "live",              // live | beta | coming-soon
      launchedAt: "2026-06-01",    // ISO date
-     productUrl: "https://my-product.staffysoft.app",
-     signupUrl: "https://my-product.staffysoft.app/signup",
+     productUrl: "https://myproduct.staffysoft.com",   // see "Product subdomains"
+     signupUrl: "https://myproduct.staffysoft.com",    // same until a signup page exists
      addToAccountUrl: addToAccountUrl("my-product"), // helper from lib/core.ts
      pricingNote: "Free tier + $5/mo Pro", // optional
      // hero: "/my-product.png",  // optional, image under /public
@@ -113,6 +113,24 @@ To build a Pages-style export locally:
 ```bash
 NEXT_PUBLIC_BASE_PATH=/portfolio npm run build
 ```
+
+## Product subdomains
+
+Each product lives at `<subdomain>.staffysoft.com` (typically the product `id` with
+hyphens removed — e.g. `tone-conditioner` → `toneconditioner.staffysoft.com`). Wire each one up via a Cloudflare CNAME
+(target: `cname.vercel-dns.com`, **DNS only** — gray cloud, so Vercel can issue
+SSL) plus a Vercel project domain attach. Dan handles the DNS + Vercel wiring;
+this repo just references the subdomain in `data/products.ts`
+(`productUrl` / `signupUrl`).
+
+Current subdomains:
+
+| Product | Subdomain |
+|---|---|
+| ToneConditioner | `toneconditioner.staffysoft.com` |
+| Voice Note Atomizer | `voicenoteatomizer.staffysoft.com` |
+| Interview Lifeguard | `interviewlifeguard.staffysoft.com` |
+| Performer Prompter | `performerprompter.staffysoft.com` |
 
 ## Integrations
 

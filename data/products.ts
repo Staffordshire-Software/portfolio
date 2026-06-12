@@ -108,6 +108,7 @@ export const products: Product[] = [
     category: "Productivity",
     status: "beta",
     launchedAt: "2026-06-01",
+    hero: "/staffysoft-logo.jpg",
     productUrl: "https://interviewlifeguard.staffysoft.com",
     signupUrl: "https://interviewlifeguard.staffysoft.com",
     addToAccountUrl: addToAccountUrl("interview-lifeguard"),

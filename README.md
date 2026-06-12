@@ -116,8 +116,8 @@ NEXT_PUBLIC_BASE_PATH=/portfolio npm run build
 
 ## Product subdomains
 
-Each product lives at `<product>.staffysoft.com` (e.g.
-`toneconditioner.staffysoft.com`). Wire each one up via a Cloudflare CNAME
+Each product lives at `<subdomain>.staffysoft.com` (typically the product `id` with
+hyphens removed — e.g. `tone-conditioner` → `toneconditioner.staffysoft.com`). Wire each one up via a Cloudflare CNAME
 (target: `cname.vercel-dns.com`, **DNS only** — gray cloud, so Vercel can issue
 SSL) plus a Vercel project domain attach. Dan handles the DNS + Vercel wiring;
 this repo just references the subdomain in `data/products.ts`

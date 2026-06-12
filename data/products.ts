@@ -94,6 +94,7 @@ export const products: Product[] = [
     category: "Productivity",
     status: "beta",
     launchedAt: "2026-06-01",
+    hero: "/staffysoft-logo.jpg",
     productUrl: "https://voicenoteatomizer.staffysoft.com",
     signupUrl: "https://voicenoteatomizer.staffysoft.com",
     addToAccountUrl: addToAccountUrl("voice-note-atomizer"),

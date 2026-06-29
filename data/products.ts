@@ -124,8 +124,8 @@ export const products: Product[] = [
     status: "live",
     launchedAt: "2026-06-01",
     hero: "/products/dansmusicstudio.png",
-    productUrl: "https://dansmusicstudiocom.vercel.app",
-    signupUrl: "https://dansmusicstudiocom.vercel.app",
+    productUrl: "https://www.dansmusicstudio.com",
+    signupUrl: "https://www.dansmusicstudio.com",
     addToAccountUrl: addToAccountUrl("dans-music-studio"),
   },
 ];

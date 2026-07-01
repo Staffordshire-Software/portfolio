@@ -1,10 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@/data/products";
+import { CONTACT_EMAIL } from "@/data/products";
 import StatusBadge from "./StatusBadge";
 
+/**
+ * Standard-size card for the shipped grid. CTAs adapt to the product:
+ * account products get "Add to my account" + "Try it"; showcase entries
+ * without an `addToAccountUrl` (client work like Dan's Music Studio) get an
+ * external "Visit <domain>" link plus a contact CTA; coming-soon products
+ * get a disabled ghost button.
+ */
 export default function ProductCard({ product }: { product: Product }) {
   const comingSoon = product.status === "coming-soon";
+  const showcaseHost = product.addToAccountUrl
+    ? null
+    : new URL(product.productUrl).hostname.replace(/^www\./, "");
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-colors hover:border-brand/50">
@@ -55,29 +66,50 @@ export default function ProductCard({ product }: { product: Product }) {
           </p>
         )}
 
-        <div className="mt-5 flex flex-1 items-end gap-2.5">
+        <div className="mt-5 flex flex-1 flex-wrap items-end gap-2.5">
           {comingSoon ? (
             <span className="flex-1 cursor-not-allowed rounded-lg bg-surface-2 px-3 py-2 text-center text-sm font-medium text-muted/60">
               Coming soon
             </span>
+          ) : product.addToAccountUrl ? (
+            <>
+              <a
+                href={product.addToAccountUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 rounded-lg bg-brand px-3 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-brand-bright"
+              >
+                Add to my account
+              </a>
+              <a
+                href={product.signupUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 rounded-lg border border-border px-3 py-2 text-center text-sm font-medium text-foreground transition-colors hover:border-brand/50 hover:bg-surface-2"
+              >
+                Try it
+              </a>
+            </>
           ) : (
-            <a
-              href={product.signupUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 rounded-lg bg-brand px-3 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-brand-bright"
-            >
-              Try it
-            </a>
+            <>
+              <a
+                href={product.productUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 rounded-lg bg-brand px-3 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-brand-bright"
+              >
+                Visit {showcaseHost}
+              </a>
+              <a
+                href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+                  `A site like ${product.name}`,
+                )}`}
+                className="flex-1 rounded-lg border border-border px-3 py-2 text-center text-sm font-medium text-foreground transition-colors hover:border-brand/50 hover:bg-surface-2"
+              >
+                Get one for your business
+              </a>
+            </>
           )}
-          <a
-            href={product.addToAccountUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 rounded-lg border border-border px-3 py-2 text-center text-sm font-medium text-foreground transition-colors hover:border-brand/50 hover:bg-surface-2"
-          >
-            Add to account
-          </a>
         </div>
       </div>
     </article>

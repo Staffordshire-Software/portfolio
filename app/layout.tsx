@@ -42,7 +42,7 @@ function SiteHeader() {
             width={36}
             height={36}
             className="rounded-lg shadow-lg shadow-brand/20"
-            priority
+            preload
           />
           <span className="text-base font-semibold tracking-tight">
             Staffy<span className="text-brand-bright">Soft</span>

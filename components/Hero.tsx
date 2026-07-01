@@ -18,7 +18,7 @@ export default function Hero({ featured }: { featured: Product }) {
             width={140}
             height={140}
             className="mb-6 rounded-2xl shadow-xl shadow-brand/20"
-            priority
+            preload
           />
           <p className="text-sm font-medium uppercase tracking-widest text-brand-bright">
             Staffordshire Software

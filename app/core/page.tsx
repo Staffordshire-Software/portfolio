@@ -206,15 +206,8 @@ export default function CorePage() {
           Everything else follows the same shape: one import, sensible
           defaults, and the platform-level concerns (per-app tagging, release
           naming, token validation) handled inside the SDK rather than in each
-          product. Core itself — the service, the SDK, and the integration
-          docs — lives in{" "}
-          <a
-            href="https://github.com/Staffordshire-Software/core"
-            className="text-brand-bright hover:underline"
-          >
-            Staffordshire-Software/core
-          </a>
-          .
+          product. The SDK is public on npm; Core itself — the service and its
+          integration docs — lives in a private repo.
         </p>
       </section>
 
@@ -249,10 +242,10 @@ export default function CorePage() {
           Browse products
         </Link>
         <a
-          href="https://github.com/Staffordshire-Software/core"
+          href="https://www.npmjs.com/package/@staffysoft/core-client"
           className="rounded-lg border border-border px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-surface-2"
         >
-          Core on GitHub
+          core-client on npm
         </a>
       </div>
     </div>

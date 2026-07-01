@@ -85,8 +85,11 @@ npm run serve     # serve ./out locally to preview the production build
 ### Vercel (primary)
 
 1. Import the repo at https://vercel.com/new.
-2. The framework auto-detects as Next.js. No env vars are needed for the static
-   site.
+2. The framework auto-detects as Next.js. No env vars are _required_ — the site
+   builds and runs with sensible defaults. `NEXT_PUBLIC_STAFFYSOFT_ACCOUNTS_URL`
+   is set in Vercel (Production + Preview) to point the "Add to account" CTAs at
+   Core; it falls back to `https://accounts.staffysoft.com` when unset. See
+   `.env.example`.
 3. Production branch: `main`. Every push to `main` redeploys; PRs get preview
    URLs automatically.
 
@@ -136,8 +139,10 @@ Current subdomains:
 
 **StaffySoft Core** (auth/entitlements):
 https://github.com/Staffordshire-Software/core — the "Add to my account" CTA
-deep-links into Core's `/add?product=ID` endpoint. This is **stubbed** in
-`lib/core.ts` until Core ships; that file is the seam to replace when it does.
+deep-links into Core's `/add?product=ID` endpoint. The base URL is read from
+`NEXT_PUBLIC_STAFFYSOFT_ACCOUNTS_URL` (see `.env.example`) and defaults to
+`https://accounts.staffysoft.com`. `lib/core.ts` builds the link and remains
+the seam to replace if the integration grows beyond a deep link.
 
 ## Not yet (deferred)
 

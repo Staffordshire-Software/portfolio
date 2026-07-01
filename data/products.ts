@@ -41,9 +41,9 @@ export type Product = {
   /** "Try it / Sign up" CTA destination. */
   signupUrl: string;
   /**
-   * "Add to my StaffySoft account" CTA — for existing Core users.
-   * Core will implement https://accounts.staffysoft.com/add?product=ID later;
-   * the link is a stub until then.
+   * "Add to my StaffySoft account" CTA — for existing Core users. Built by
+   * `addToAccountUrl()` (lib/core.ts), which targets Core's `/add?product=ID`
+   * flow; the host is configurable via NEXT_PUBLIC_STAFFYSOFT_ACCOUNTS_URL.
    */
   addToAccountUrl: string;
   /** Optional short pricing note, e.g. "Free tier + $6/mo Pro". */

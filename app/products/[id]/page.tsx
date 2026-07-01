@@ -79,14 +79,16 @@ export default async function ProductPage({ params }: PageParams) {
                 Try it / Sign up
               </a>
             )}
-            <a
-              href={product.addToAccountUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg border border-border px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-surface-2"
-            >
-              Add to my StaffySoft account
-            </a>
+            {product.addToAccountUrl && (
+              <a
+                href={product.addToAccountUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border border-border px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-surface-2"
+              >
+                Add to my StaffySoft account
+              </a>
+            )}
             <a
               href={product.productUrl}
               target="_blank"
@@ -109,7 +111,7 @@ export default async function ProductPage({ params }: PageParams) {
               fill
               sizes="(max-width: 1024px) 100vw, 1024px"
               className="object-cover"
-              priority
+              preload
             />
           ) : (
             <span className="glow flex h-full flex-col items-center justify-center gap-3 bg-gradient-to-br from-surface to-surface-2">

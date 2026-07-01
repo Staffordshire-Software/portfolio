@@ -1,8 +1,16 @@
 # StaffySoft Portfolio
 
 The public face of [Staffordshire Software](https://github.com/Staffordshire-Software).
-Lists every product we've shipped, with two CTAs per entry: **Try it** (sign up
-fresh) and **Add to my account** (existing StaffySoft Core users).
+The homepage is split into three sections, all driven by `data/products.ts`:
+
+- **What we've shipped** — a flagship (`variant: "hero"`) card followed by
+  standard cards. Account products get **Add to my account** (existing
+  StaffySoft Core users) plus a try/demo CTA; showcase entries without an
+  `addToAccountUrl` (bespoke client sites) get a **Visit** link and a contact
+  CTA instead.
+- **Platform** — a single, visually distinct card for StaffySoft Core (the
+  `platform` export, not a product entry), linking to `/core`.
+- **On the roadmap** — compact `variant: "roadmap"` cards with no CTAs.
 
 Master portfolio board: https://github.com/orgs/Staffordshire-Software/projects/7
 
@@ -26,12 +34,13 @@ Visit http://localhost:3000.
 ## Project layout
 
 ```
-data/products.ts        ← all product data (the file you edit most)
+data/products.ts        ← all product + platform data (the file you edit most)
 lib/core.ts             ← StaffySoft Core integration (stubbed)
-app/page.tsx            ← home: hero + featured + grid by category
+app/page.tsx            ← home: hero + shipped / platform / roadmap sections
 app/products/[id]/      ← per-product page (one static page per product)
 app/about/page.tsx      ← about (placeholder copy)
-components/             ← ProductCard, StatusBadge, Hero, CategoryGrid
+components/             ← Hero, HeroProductCard, ProductCard, PlatformCard,
+                          RoadmapCard, StatusBadge
 ```
 
 ## Adding a product
@@ -47,17 +56,19 @@ components/             ← ProductCard, StatusBadge, Hero, CategoryGrid
      description: "A paragraph...",
      category: "Tools",           // Music | Productivity | Education | Business Ops | Tools | Other
      status: "live",              // live | beta | coming-soon
+     variant: "standard",         // hero (flagship, max one) | standard | roadmap
      launchedAt: "2026-06-01",    // ISO date
      productUrl: "https://myproduct.staffysoft.com",   // see "Product subdomains"
      signupUrl: "https://myproduct.staffysoft.com",    // same until a signup page exists
-     addToAccountUrl: addToAccountUrl("my-product"), // helper from lib/core.ts
+     addToAccountUrl: addToAccountUrl("my-product"), // helper from lib/core.ts — omit for
+                                                     // non-account showcase entries
      pricingNote: "Free tier + $5/mo Pro", // optional
      // hero: "/my-product.png",  // optional, image under /public
    }
    ```
 
-2. That's it — the home page, category grouping, and the `/products/my-product`
-   page are all generated from this list at build time. No other files to touch.
+2. That's it — the home page sections and the `/products/my-product` page are
+   all generated from this list at build time. No other files to touch.
 3. Run `npm run build` to confirm it compiles, then open a PR. Merging to `main`
    redeploys (see below).
 

@@ -28,8 +28,8 @@ export default function Home() {
             What we&apos;ve shipped
           </h2>
           <p className="mt-2 max-w-xl text-muted">
-            Add any product to your StaffySoft account in one click, or try it
-            first.
+            Products drop into your StaffySoft account in one click — plus the
+            bespoke client work we ship alongside them.
           </p>
         </div>
 

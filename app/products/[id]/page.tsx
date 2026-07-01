@@ -64,12 +64,14 @@ export default async function ProductPage({ params }: PageParams) {
           </div>
           <p className="mt-3 text-xl text-muted">{product.tagline}</p>
 
+          {/* Showcase entries (no addToAccountUrl) have no signup flow, so
+              their only CTA is the primary "Visit site" link. */}
           <div className="mt-8 flex flex-wrap items-center gap-3">
             {comingSoon ? (
               <span className="cursor-not-allowed rounded-lg bg-surface-2 px-5 py-2.5 text-sm font-semibold text-muted/60">
                 Coming soon
               </span>
-            ) : (
+            ) : product.addToAccountUrl ? (
               <a
                 href={product.signupUrl}
                 target="_blank"
@@ -77,6 +79,15 @@ export default async function ProductPage({ params }: PageParams) {
                 className="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-bright"
               >
                 Try it / Sign up
+              </a>
+            ) : (
+              <a
+                href={product.productUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-bright"
+              >
+                Visit site ↗
               </a>
             )}
             {product.addToAccountUrl && (
@@ -89,14 +100,16 @@ export default async function ProductPage({ params }: PageParams) {
                 Add to my StaffySoft account
               </a>
             )}
-            <a
-              href={product.productUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg px-5 py-2.5 text-sm font-semibold text-muted transition-colors hover:text-foreground"
-            >
-              Visit site ↗
-            </a>
+            {(comingSoon || product.addToAccountUrl) && (
+              <a
+                href={product.productUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg px-5 py-2.5 text-sm font-semibold text-muted transition-colors hover:text-foreground"
+              >
+                Visit site ↗
+              </a>
+            )}
           </div>
         </div>
       </div>

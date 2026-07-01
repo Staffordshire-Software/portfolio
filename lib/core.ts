@@ -20,13 +20,17 @@ export const DEFAULT_ACCOUNTS_URL = "https://accounts.staffysoft.com";
 
 /**
  * Base URL for Core's accounts app. Read from the public env var at build time
- * — Next.js inlines `NEXT_PUBLIC_*` references into the bundle — with any
- * trailing slash trimmed so link construction stays clean. Falls back to the
- * production accounts host when unset, so local builds need no config.
+ * — Next.js inlines `NEXT_PUBLIC_*` references into the bundle. A configured
+ * value has any trailing slash trimmed so link construction stays clean; when
+ * unset or blank we fall back to the production host, so local builds need no
+ * config.
  */
-export const CORE_ACCOUNTS_BASE =
-  process.env.NEXT_PUBLIC_STAFFYSOFT_ACCOUNTS_URL?.trim().replace(/\/+$/, "") ||
-  DEFAULT_ACCOUNTS_URL;
+const configuredAccountsUrl =
+  process.env.NEXT_PUBLIC_STAFFYSOFT_ACCOUNTS_URL?.trim();
+
+export const CORE_ACCOUNTS_BASE = configuredAccountsUrl
+  ? configuredAccountsUrl.replace(/\/+$/, "")
+  : DEFAULT_ACCOUNTS_URL;
 
 /** Build the "Add to my StaffySoft account" deep link for a product id. */
 export function addToAccountUrl(productId: string): string {

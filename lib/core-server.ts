@@ -65,10 +65,21 @@ export function coreConfigured(): boolean {
 export function isSameOriginRequest(req: NextRequest): boolean {
   const origin = req.headers.get("origin");
   if (!origin) return true;
-  const host =
-    req.headers.get("x-forwarded-host") ?? req.headers.get("host") ?? "";
+  // Every legitimate view of the request's host: Next's parsed URL plus the
+  // raw Host/X-Forwarded-Host headers (the forwarded value can be a
+  // comma-joined chain when several proxies append to it). These are all
+  // server/proxy-set, so accepting a match on any of them stays safe.
+  const candidates = new Set(
+    [
+      req.nextUrl.host,
+      req.headers.get("host"),
+      ...(req.headers.get("x-forwarded-host")?.split(",") ?? []),
+    ]
+      .filter((h): h is string => Boolean(h))
+      .map((h) => h.trim()),
+  );
   try {
-    return new URL(origin).host === host;
+    return candidates.has(new URL(origin).host);
   } catch {
     return false;
   }

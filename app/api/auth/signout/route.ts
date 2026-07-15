@@ -31,16 +31,22 @@ export async function POST(req: NextRequest) {
     return res;
   }
 
-  const { clearCookies } = await coreClient().signOut({
-    sessionToken: req.cookies.get(PRODUCT_SESSION_COOKIE)?.value,
-    productCookies: [PRODUCT_SESSION_COOKIE],
-    // `.staffysoft.com` in prod; unset in local dev where the cookie is
-    // host-only (must match Core's CORE_SSO_COOKIE_DOMAIN).
-    ssoCookieDomain: process.env.CORE_SSO_COOKIE_DOMAIN?.trim() || undefined,
-  });
-
-  for (const { name, value, ...attrs } of clearCookies) {
-    res.cookies.set(name, value, attrs);
+  try {
+    const { clearCookies } = await coreClient().signOut({
+      sessionToken: req.cookies.get(PRODUCT_SESSION_COOKIE)?.value,
+      productCookies: [PRODUCT_SESSION_COOKIE],
+      // `.staffysoft.com` in prod; unset in local dev where the cookie is
+      // host-only (must match Core's CORE_SSO_COOKIE_DOMAIN).
+      ssoCookieDomain: process.env.CORE_SSO_COOKIE_DOMAIN?.trim() || undefined,
+    });
+    for (const { name, value, ...attrs } of clearCookies) {
+      res.cookies.set(name, value, attrs);
+    }
+  } catch {
+    // signOut() is documented never to throw, but sign-out must converge to
+    // signed-out locally even if that contract is ever broken.
+    const { value, ...attrs } = CLEAR_PRODUCT_COOKIE;
+    res.cookies.set(PRODUCT_SESSION_COOKIE, value, attrs);
   }
   return res;
 }

@@ -1,24 +1,17 @@
 import type { NextConfig } from "next";
 
-// The site ships as a fully static export (SSG). `next build` writes the
-// deployable site to ./out — there is no separate `next export` step in
-// Next.js 14+. See README "Deploy" for Vercel and GitHub Pages targets.
-//
-// GitHub Pages project sites are served from a sub-path (e.g. /portfolio),
-// so we read an optional base path from the environment. Vercel serves from
-// the domain root and leaves this unset.
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
+// The site runs as a regular Next.js server app on Vercel. It shipped as a
+// fully static export until #15: the signed-in header needs same-origin API
+// routes (/api/core/session and the sign-out proxies) that hold the Core
+// product API key server-side, which a static export cannot provide. The
+// marketing pages themselves are still statically prerendered (SSG) — only
+// the app/api/ routes run on the server.
 const nextConfig: NextConfig = {
-  output: "export",
-  // Emit /products/foo/index.html so static hosts (GitHub Pages) resolve
-  // routes without server-side rewrites.
+  // Kept from the static-export era so URLs don't change (/products/foo/).
   trailingSlash: true,
-  // The default Image Optimization loader needs a server; static exports
-  // must use unoptimized images. We mostly use CSS art for heroes, but this
-  // keeps next/image working if real screenshots are added later.
+  // Kept for byte-identical rendering with the exported site; flip this off
+  // later if we want Vercel's image optimization.
   images: { unoptimized: true },
-  ...(basePath ? { basePath, assetPrefix: basePath } : {}),
 };
 
 export default nextConfig;

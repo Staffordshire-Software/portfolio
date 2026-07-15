@@ -6,7 +6,9 @@ import { colorSchemeInitScript } from "@staffysoft/core-client";
 import {
   ColorSchemeProvider,
   ColorSchemeToggle,
+  CoreSessionProvider,
 } from "@staffysoft/core-client/react";
+import HeaderAccount from "@/components/HeaderAccount";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -63,9 +65,10 @@ function SiteHeader() {
           >
             About
           </Link>
-          {/* Shared 3-state scheme cycle (System → Light → Dark). AccountMenu
-              lands beside it once core-client 0.5.0 is installable (#15). */}
+          {/* Shared 3-state scheme cycle (System → Light → Dark). */}
           <ColorSchemeToggle className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-surface-2 hover:text-foreground" />
+          {/* AccountMenu when signed in, "Sign in" CTA when guest (#15). */}
+          <HeaderAccount />
         </nav>
       </div>
     </header>
@@ -117,9 +120,17 @@ export default function RootLayout({
       </head>
       <body className="flex min-h-full flex-col">
         <ColorSchemeProvider>
-          <SiteHeader />
-          <main className="flex-1">{children}</main>
-          <SiteFooter />
+          {/* The SDK defaults lack the trailing slash this site's
+              `trailingSlash: true` config redirects to (an extra 308 per
+              call), so the endpoints are configured with it. */}
+          <CoreSessionProvider
+            sessionEndpoint="/api/core/session/"
+            signOutEndpoint="/api/auth/signout/"
+          >
+            <SiteHeader />
+            <main className="flex-1">{children}</main>
+            <SiteFooter />
+          </CoreSessionProvider>
         </ColorSchemeProvider>
       </body>
     </html>

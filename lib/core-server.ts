@@ -9,6 +9,8 @@
 // `staffysoft_sso` cookie to us automatically, and the session route trades it
 // for a portfolio-scoped session via `exchangeSsoSession()`.
 
+import "server-only"; // build-time guard: importing this from client code fails
+
 import type { NextRequest } from "next/server";
 import { createCoreClient } from "@staffysoft/core-client";
 import { DEFAULT_ACCOUNTS_URL } from "./core";

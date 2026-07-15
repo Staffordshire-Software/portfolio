@@ -76,7 +76,7 @@ export default async function ProductPage({ params }: PageParams) {
                 href={product.signupUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-bright"
+                className="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-brand-contrast transition-colors hover:bg-brand-bright"
               >
                 Try it / Sign up
               </a>
@@ -85,7 +85,7 @@ export default async function ProductPage({ params }: PageParams) {
                 href={product.productUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-bright"
+                className="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-brand-contrast transition-colors hover:bg-brand-bright"
               >
                 Visit site ↗
               </a>

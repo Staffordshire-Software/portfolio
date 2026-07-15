@@ -34,7 +34,7 @@ export default function AboutPage() {
       <div className="mt-10 flex flex-wrap gap-3">
         <Link
           href="/"
-          className="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-bright"
+          className="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-brand-contrast transition-colors hover:bg-brand-bright"
         >
           Browse products
         </Link>

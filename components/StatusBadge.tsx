@@ -1,17 +1,19 @@
 import type { ProductStatus } from "@/data/products";
 
+// Status colors ride the shared tokens (tokens.css) so badges stay legible in
+// both schemes; globals.css pins the dark values to the pre-#15 palette.
 const STYLES: Record<ProductStatus, { label: string; className: string }> = {
   live: {
     label: "Live",
-    className: "bg-green-500/15 text-green-300 ring-green-500/30",
+    className: "bg-success/15 text-success ring-success/30",
   },
   beta: {
     label: "Beta",
-    className: "bg-yellow-500/15 text-yellow-300 ring-yellow-500/30",
+    className: "bg-warning/15 text-warning ring-warning/30",
   },
   "coming-soon": {
     label: "Coming soon",
-    className: "bg-zinc-500/15 text-zinc-300 ring-zinc-500/30",
+    className: "bg-muted/15 text-muted ring-muted/30",
   },
 };
 

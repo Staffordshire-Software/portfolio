@@ -39,7 +39,7 @@ export default function HeroProductCard({ product }: { product: Product }) {
               href={product.addToAccountUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-bright"
+              className="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-brand-contrast transition-colors hover:bg-brand-bright"
             >
               Add to my account
             </a>

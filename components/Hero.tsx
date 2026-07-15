@@ -34,7 +34,7 @@ export default function Hero({ featured }: { featured: Product }) {
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <a
               href="#products"
-              className="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-bright"
+              className="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-brand-contrast transition-colors hover:bg-brand-bright"
             >
               Browse products
             </a>

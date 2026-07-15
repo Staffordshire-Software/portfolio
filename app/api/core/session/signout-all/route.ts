@@ -20,9 +20,17 @@ import {
   CORE_BASE_URL,
   PRODUCT_SESSION_COOKIE,
   coreConfigured,
+  isSameOriginRequest,
 } from "@/lib/core-server";
 
 export async function POST(req: NextRequest) {
+  if (!isSameOriginRequest(req)) {
+    return NextResponse.json(
+      { error: { code: "cross_origin" } },
+      { status: 403 },
+    );
+  }
+
   const ssoToken = req.cookies.get(SSO_COOKIE_NAME)?.value;
 
   let status = 401;

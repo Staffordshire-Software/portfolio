@@ -9,6 +9,7 @@
 // `staffysoft_sso` cookie to us automatically, and the session route trades it
 // for a portfolio-scoped session via `exchangeSsoSession()`.
 
+import type { NextRequest } from "next/server";
 import { createCoreClient } from "@staffysoft/core-client";
 import { DEFAULT_ACCOUNTS_URL } from "./core";
 
@@ -52,6 +53,25 @@ export const CORE_API_KEY = process.env.CORE_API_KEY?.trim() || "";
  */
 export function coreConfigured(): boolean {
   return CORE_API_KEY.length > 0;
+}
+
+/**
+ * CSRF guard for the cookie-authenticated, state-changing POST routes: a
+ * cross-site form/fetch POST must not be able to sign the user out. Browsers
+ * always send `Origin` on POST — reject when it doesn't match the host the
+ * request arrived on. A missing Origin (curl, server-to-server) is allowed,
+ * per the usual same-origin-check guidance.
+ */
+export function isSameOriginRequest(req: NextRequest): boolean {
+  const origin = req.headers.get("origin");
+  if (!origin) return true;
+  const host =
+    req.headers.get("x-forwarded-host") ?? req.headers.get("host") ?? "";
+  try {
+    return new URL(origin).host === host;
+  } catch {
+    return false;
+  }
 }
 
 let client: ReturnType<typeof createCoreClient> | null = null;

@@ -12,9 +12,17 @@ import {
   PRODUCT_SESSION_COOKIE,
   coreClient,
   coreConfigured,
+  isSameOriginRequest,
 } from "@/lib/core-server";
 
 export async function POST(req: NextRequest) {
+  if (!isSameOriginRequest(req)) {
+    return NextResponse.json(
+      { error: { code: "cross_origin" } },
+      { status: 403 },
+    );
+  }
+
   const res = NextResponse.json({ ok: true });
 
   if (!coreConfigured()) {

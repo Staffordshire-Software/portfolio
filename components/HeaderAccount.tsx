@@ -20,12 +20,17 @@ export default function HeaderAccount() {
   // Where Core's hosted account switcher returns the user afterwards — the
   // page they're on, tracked across client-side navigations. The origin is a
   // lazy initializer (no SSR window); the menu only renders client-side, so
-  // the server's undefined returnTo never reaches the DOM.
+  // the server's undefined returnTo never reaches the DOM. The query string
+  // is read from the location directly rather than useSearchParams(), which
+  // would demand a Suspense boundary on every statically-prerendered page —
+  // any query change on this site comes with a pathname change re-render.
   const pathname = usePathname();
   const [origin] = useState(() =>
     typeof window === "undefined" ? "" : window.location.origin,
   );
-  const returnTo = origin ? `${origin}${pathname}` : undefined;
+  const returnTo = origin
+    ? `${origin}${pathname}${window.location.search}`
+    : undefined;
 
   if (status === "loading") return null;
 

@@ -29,7 +29,7 @@ import {
   coreConfigured,
 } from "@/lib/core-server";
 
-const SESSION_COOKIE_MAX_AGE = 60 * 60 * 24 * 7; // days, matching the SDK docs
+const SESSION_COOKIE_MAX_AGE = 60 * 60 * 24 * 7; // 7 days in seconds, matching the SDK docs
 
 export async function GET(req: NextRequest) {
   const ssoToken = req.cookies.get(SSO_COOKIE_NAME)?.value;
@@ -39,7 +39,10 @@ export async function GET(req: NextRequest) {
     session: CoreSession | null,
     cookie?: { set: string } | { clear: true },
   ) => {
-    const res = NextResponse.json(session);
+    // Per-user state: forbid any browser/proxy/CDN caching.
+    const res = NextResponse.json(session, {
+      headers: { "cache-control": "no-store", vary: "Cookie" },
+    });
     if (cookie && "set" in cookie) {
       res.cookies.set(PRODUCT_SESSION_COOKIE, cookie.set, {
         httpOnly: true,

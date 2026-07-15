@@ -10,6 +10,10 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { SSO_COOKIE_NAME } from "@staffysoft/core-client";
+
+// The upstream Set-Cookie relay uses `Headers.getSetCookie()`, which exists in
+// Node/undici but not in every edge runtime — pin the route to Node.js.
+export const runtime = "nodejs";
 import {
   CLEAR_PRODUCT_COOKIE,
   CORE_API_KEY,

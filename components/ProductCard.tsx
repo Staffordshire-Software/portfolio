@@ -77,7 +77,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 href={product.addToAccountUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 rounded-lg bg-brand px-3 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-brand-bright"
+                className="flex-1 rounded-lg bg-brand px-3 py-2 text-center text-sm font-medium text-brand-contrast transition-colors hover:bg-brand-bright"
               >
                 Add to my account
               </a>
@@ -96,7 +96,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 href={product.productUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 rounded-lg bg-brand px-3 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-brand-bright"
+                className="flex-1 rounded-lg bg-brand px-3 py-2 text-center text-sm font-medium text-brand-contrast transition-colors hover:bg-brand-bright"
               >
                 Visit {showcaseHost}
               </a>

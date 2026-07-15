@@ -16,11 +16,15 @@ Master portfolio board: https://github.com/orgs/Staffordshire-Software/projects/
 
 ## Stack
 
-- **Next.js** (App Router) — static export / SSG. The product list is finite and
-  updated infrequently, so the whole site prerenders to static HTML.
+- **Next.js** (App Router) — marketing pages are statically prerendered (SSG);
+  a handful of API routes (`app/api/`) run server-side for the signed-in
+  header (they hold the Core product API key, which can never ship to the
+  browser). The site was a fully static export until
+  [#15](https://github.com/Staffordshire-Software/portfolio/issues/15).
 - **TypeScript**
-- **Tailwind CSS** (v4)
-- **Deploy:** Vercel (primary), GitHub Pages (fallback)
+- **Tailwind CSS** (v4), themed by the shared StaffySoft design tokens from
+  `@staffysoft/core-client` (light/dark/system)
+- **Deploy:** Vercel
 
 ## Local development
 
@@ -35,12 +39,16 @@ Visit http://localhost:3000.
 
 ```
 data/products.ts        ← all product + platform data (the file you edit most)
-lib/core.ts             ← StaffySoft Core integration (stubbed)
+lib/core.ts             ← Core URL contract used by the client (links, CTAs)
+lib/core-server.ts      ← server-side Core SDK client (holds the API key)
 app/page.tsx            ← home: hero + shipped / platform / roadmap sections
 app/products/[id]/      ← per-product page (one static page per product)
 app/about/page.tsx      ← about (placeholder copy)
+app/api/core/session/   ← same-origin session endpoint for useSession()
+app/api/auth/signout/   ← propagating sign-out (this app + Core SSO session)
+app/api/core/session/signout-all/ ← "sign out of all apps" proxy → Core
 components/             ← Hero, HeroProductCard, ProductCard, PlatformCard,
-                          RoadmapCard, StatusBadge
+                          RoadmapCard, StatusBadge, HeaderAccount
 ```
 
 ## Adding a product
@@ -75,58 +83,32 @@ components/             ← Hero, HeroProductCard, ProductCard, PlatformCard,
 **Status badges:** `live` is green, `beta` is yellow, `coming-soon` is grey. A
 `coming-soon` product shows a disabled "Coming soon" button instead of "Try it".
 
-## Build / static export
+## Build
 
 ```bash
-npm run build     # writes the static site to ./out
-npm run export    # sanity-checks that ./out was produced
-npm run serve     # serve ./out locally to preview the production build
+npm run build     # production build (marketing pages prerender as SSG)
+npm run start     # serve the production build locally
 ```
 
-> Note: Next.js 14+ has no separate `next export` step. Setting
-> `output: "export"` in `next.config.ts` makes `next build` emit `./out`
-> directly. `npm run export` just verifies that output exists.
->
-> There is no `next start`: that command can't serve an `output: "export"`
-> build. Use `npm run serve` (a static file server over `./out`) to preview
-> the production build locally.
+> The site was a fully static export (`output: "export"`) until
+> [#15](https://github.com/Staffordshire-Software/portfolio/issues/15) added
+> the signed-in header, whose session/sign-out routes need a server to keep
+> the Core API key out of the browser. GitHub Pages (static-only) was dropped
+> as a deploy target at the same time.
 
 ## Deploy
 
-### Vercel (primary)
-
 1. Import the repo at https://vercel.com/new.
 2. The framework auto-detects as Next.js. No env vars are _required_ — the site
-   builds and runs with sensible defaults. `NEXT_PUBLIC_STAFFYSOFT_ACCOUNTS_URL`
-   is set in Vercel (Production + Preview) to point the "Add to account" CTAs at
-   Core; it falls back to `https://accounts.staffysoft.com` when unset. See
-   `.env.example`.
+   builds and runs with sensible defaults (every visitor is a guest until
+   `CORE_API_KEY` is configured). See `.env.example` for the full list:
+   `NEXT_PUBLIC_STAFFYSOFT_ACCOUNTS_URL` points CTAs at Core, and
+   `CORE_API_KEY` / `CORE_SSO_COOKIE_DOMAIN` light up the signed-in header.
 3. Production branch: `main`. Every push to `main` redeploys; PRs get preview
    URLs automatically.
 
 Until Dan buys a real domain, the production URL is
 `https://staffysoft-portfolio.vercel.app`.
-
-### GitHub Pages (fallback)
-
-A ready-to-use workflow lives at `.github/workflows/deploy-pages.yml`.
-
-1. In the repo, go to **Settings → Pages → Build and deployment** and set the
-   source to **GitHub Actions**.
-2. Trigger the **Deploy to GitHub Pages** workflow from the **Actions** tab
-   (it's `workflow_dispatch` / manual so it doesn't compete with Vercel on every
-   push).
-3. The site publishes to `https://staffordshire-software.github.io/portfolio`.
-
-The workflow sets `NEXT_PUBLIC_BASE_PATH` to the repo name so assets resolve
-under the `/portfolio` sub-path, and a `.nojekyll` file ships in `public/` so
-GitHub Pages serves Next's `_next/` assets untouched.
-
-To build a Pages-style export locally:
-
-```bash
-NEXT_PUBLIC_BASE_PATH=/portfolio npm run build
-```
 
 ## Product subdomains
 
@@ -149,15 +131,22 @@ Current subdomains:
 ## Integrations
 
 **StaffySoft Core** (auth/entitlements):
-https://github.com/Staffordshire-Software/core — the "Add to my account" CTA
-deep-links into Core's `/add?product=ID` endpoint. The base URL is read from
-`NEXT_PUBLIC_STAFFYSOFT_ACCOUNTS_URL` (see `.env.example`) and defaults to
-`https://accounts.staffysoft.com`. `lib/core.ts` builds the link and remains
-the seam to replace if the integration grows beyond a deep link.
+https://github.com/Staffordshire-Software/core — two integrations:
+
+- **Deep links** (`lib/core.ts`): the "Add to my account" CTA points at Core's
+  `/add?product=ID` endpoint; the header's "Sign in" CTA and the account
+  switcher point at the same host. Base URL from
+  `NEXT_PUBLIC_STAFFYSOFT_ACCOUNTS_URL`, defaulting to
+  `https://accounts.staffysoft.com`.
+- **Signed-in header** (#15): `@staffysoft/core-client`'s `CoreSessionProvider`
+  + `AccountMenu` render the current account (with switch / sign out / sign out
+  of all apps), and the shared design tokens + `ColorSchemeToggle` drive
+  System/Light/Dark. The same-origin routes under `app/api/` resolve the
+  shared `.staffysoft.com` SSO cookie server-side (see `lib/core-server.ts`);
+  requires `CORE_API_KEY`, and degrades to guest-only without it.
 
 ## Not yet (deferred)
 
 - Analytics (Plausible — Dan will add later)
 - Newsletter / email capture
-- Real auth integration & cross-product SSO (waiting on Core)
 - A CMS — products are checked into the repo on purpose

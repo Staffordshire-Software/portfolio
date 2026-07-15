@@ -1,17 +1,91 @@
 @import "tailwindcss";
 
-@theme {
-  --color-background: #0b0b0f;
-  --color-surface: #14141b;
-  --color-surface-2: #1c1c26;
-  --color-border: #2a2a37;
-  --color-foreground: #ededf2;
-  --color-muted: #a1a1b5;
+/* StaffySoft shared design tokens (core-client #82): light is the default,
+   dark applies when <html> carries `.dark`/`data-color-scheme="dark"`, which
+   ColorSchemeProvider + the head init script manage. */
+@import "@staffysoft/core-client/styles/tokens.css";
+
+/*
+ * Portfolio re-brand of the shared tokens — tokens.css invites products to
+ * re-declare any variable after the import. Two rules anchor this palette:
+ *
+ *  - Dark IS the site's original design, hex-for-hex (the portfolio shipped
+ *    dark-only before #15), so dark mode is a zero-regression palette.
+ *  - Light is new, derived from the same warm electric violet brand.
+ *
+ * --portfolio-brand-bright is a site-specific companion to --ss-color-accent
+ * (the "Soft" in the logotype, link/hover accents) with no shared equivalent.
+ */
+:root {
+  --ss-color-background: #faf9fb;
+  --ss-color-surface: #ffffff;
+  --ss-color-surface-elevated: #f1eff6;
+  --ss-color-text-primary: #17161d;
+  --ss-color-text-muted: #5f5b6b;
+  --ss-color-border: #e4e2ec;
+  --ss-color-accent: #6d28d9;
+  --ss-color-accent-contrast: #ffffff;
+
+  --portfolio-brand-bright: #7c3aed;
+}
+
+.dark,
+[data-color-scheme="dark"] {
+  --ss-color-background: #0b0b0f;
+  --ss-color-surface: #14141b;
+  --ss-color-surface-elevated: #1c1c26;
+  --ss-color-text-primary: #ededf2;
+  --ss-color-text-muted: #a1a1b5;
+  --ss-color-border: #2a2a37;
+  --ss-color-accent: #8b5cf6;
+  --ss-color-accent-contrast: #ffffff;
+  /* Badge colors as they shipped pre-#15 (green-300 / yellow-300). */
+  --ss-color-success: #86efac;
+  --ss-color-warning: #fde047;
+
+  --portfolio-brand-bright: #a78bfa;
+}
+
+/* No-JS fallback, mirroring tokens.css: a system-dark visitor with scripting
+   disabled still gets the portfolio dark palette, not core's stock one. */
+@media (prefers-color-scheme: dark) {
+  :root:not(.dark):not([data-color-scheme]) {
+    --ss-color-background: #0b0b0f;
+    --ss-color-surface: #14141b;
+    --ss-color-surface-elevated: #1c1c26;
+    --ss-color-text-primary: #ededf2;
+    --ss-color-text-muted: #a1a1b5;
+    --ss-color-border: #2a2a37;
+    --ss-color-accent: #8b5cf6;
+    --ss-color-accent-contrast: #ffffff;
+    --ss-color-success: #86efac;
+    --ss-color-warning: #fde047;
+
+    --portfolio-brand-bright: #a78bfa;
+  }
+}
+
+/* The site's utility vocabulary (bg-surface, text-muted, bg-brand, …) stays
+   as-is; every name now resolves through the shared tokens so utilities flip
+   with the scheme. `inline` substitutes the var() reference into utilities. */
+@theme inline {
+  --color-background: var(--ss-color-background);
+  --color-surface: var(--ss-color-surface);
+  --color-surface-2: var(--ss-color-surface-elevated);
+  --color-border: var(--ss-color-border);
+  --color-foreground: var(--ss-color-text-primary);
+  --color-muted: var(--ss-color-text-muted);
 
   /* StaffySoft brand accent — a warm electric violet. */
-  --color-brand: #8b5cf6;
-  --color-brand-bright: #a78bfa;
+  --color-brand: var(--ss-color-accent);
+  --color-brand-bright: var(--portfolio-brand-bright);
+  --color-brand-contrast: var(--ss-color-accent-contrast);
 
+  --color-success: var(--ss-color-success);
+  --color-warning: var(--ss-color-warning);
+}
+
+@theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
@@ -21,23 +95,40 @@ html {
 }
 
 body {
-  background: var(--color-background);
-  color: var(--color-foreground);
+  background: var(--ss-color-background);
+  color: var(--ss-color-text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
-/* Subtle ambient glow used behind hero sections. */
+/* Subtle ambient glow used behind hero sections. Light mode gets a gentler
+   wash — the same violet at full dark-mode strength reads as a stain on
+   near-white. */
 .glow {
   background-image:
     radial-gradient(
       40rem 30rem at 75% -10%,
-      color-mix(in oklab, var(--color-brand) 22%, transparent),
+      color-mix(in oklab, var(--ss-color-accent) 10%, transparent),
       transparent
     ),
     radial-gradient(
       30rem 24rem at 0% 10%,
-      color-mix(in oklab, var(--color-brand-bright) 12%, transparent),
+      color-mix(in oklab, var(--portfolio-brand-bright) 6%, transparent),
+      transparent
+    );
+}
+
+.dark .glow,
+[data-color-scheme="dark"] .glow {
+  background-image:
+    radial-gradient(
+      40rem 30rem at 75% -10%,
+      color-mix(in oklab, var(--ss-color-accent) 22%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      30rem 24rem at 0% 10%,
+      color-mix(in oklab, var(--portfolio-brand-bright) 12%, transparent),
       transparent
     );
 }

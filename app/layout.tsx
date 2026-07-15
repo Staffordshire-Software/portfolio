@@ -2,6 +2,13 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import { colorSchemeInitScript } from "@staffysoft/core-client";
+import {
+  ColorSchemeProvider,
+  ColorSchemeToggle,
+  CoreSessionProvider,
+} from "@staffysoft/core-client/react";
+import HeaderAccount from "@/components/HeaderAccount";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -58,6 +65,10 @@ function SiteHeader() {
           >
             About
           </Link>
+          {/* Shared 3-state scheme cycle (System → Light → Dark). */}
+          <ColorSchemeToggle className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-surface-2 hover:text-foreground" />
+          {/* AccountMenu when signed in, "Sign in" CTA when guest (#15). */}
+          <HeaderAccount />
         </nav>
       </div>
     </header>
@@ -94,14 +105,33 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // suppressHydrationWarning: the head script below sets the color-scheme
+    // class/attribute on <html> before first paint, so the server-rendered
+    // attributes intentionally differ from the DOM React hydrates into.
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full`}
+      suppressHydrationWarning
     >
+      <head>
+        {/* No-FOUC bootstrap: applies the stored scheme preference before the
+            app bundle loads. Must stay ahead of any content paint. */}
+        <script dangerouslySetInnerHTML={{ __html: colorSchemeInitScript }} />
+      </head>
       <body className="flex min-h-full flex-col">
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
+        <ColorSchemeProvider>
+          {/* The SDK defaults lack the trailing slash this site's
+              `trailingSlash: true` config redirects to (an extra 308 per
+              call), so the endpoints are configured with it. */}
+          <CoreSessionProvider
+            sessionEndpoint="/api/core/session/"
+            signOutEndpoint="/api/auth/signout/"
+          >
+            <SiteHeader />
+            <main className="flex-1">{children}</main>
+            <SiteFooter />
+          </CoreSessionProvider>
+        </ColorSchemeProvider>
       </body>
     </html>
   );

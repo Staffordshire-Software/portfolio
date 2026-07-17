@@ -22,7 +22,7 @@ export const APP_THEMES = {
   tc: { slug: "tc", name: "ToneSmith",           accent: { hex: "#a0732f", name: "brass" },     favicon: { letters: "TC" } },
   // TG's accent is provisional — the tone-grid repo hasn't adopted the
   // pattern yet, so this is the favicon-master pick, not a verified UI accent.
-  tg: { slug: "tg", name: "ToneGrid",            accent: { hex: "#D4A64A", name: "gold" },      favicon: { letters: "TG" } },
+  tg: { slug: "tg", name: "ToneGrid",            accent: { hex: "#d4a64a", name: "gold" },      favicon: { letters: "TG" } },
   bh: { slug: "bh", name: "Billing Helper",      accent: { hex: "#4f46e5", name: "indigo" },    favicon: { letters: "BH" } },
   vn: { slug: "vn", name: "Voice Note Atomizer", accent: { hex: "#dc2626", name: "record red" }, favicon: { letters: "VN" } },
 } satisfies { [S in StaffySoftAppTheme["slug"]]: StaffySoftAppTheme & { slug: S } };

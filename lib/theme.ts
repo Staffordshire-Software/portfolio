@@ -4,7 +4,7 @@
 // consume from that source. This file is the source of truth for the pattern:
 // app repos carry a `lib/theme.ts` that duplicates their own entry (by
 // convention, not by package — consolidating into a shared npm package is
-// deferred until 3+ apps are in production; see portfolio#18).
+// deferred until 3+ apps are in production; see issue #18).
 
 export type StaffySoftAppTheme = {
   slug: "pp" | "tc" | "tg" | "bh" | "vn";

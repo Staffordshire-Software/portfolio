@@ -9,6 +9,7 @@ import {
   CoreSessionProvider,
 } from "@staffysoft/core-client/react";
 import HeaderAccount from "@/components/HeaderAccount";
+import MobileNav from "@/components/MobileNav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -41,8 +42,8 @@ export const metadata: Metadata = {
 function SiteHeader() {
   return (
     <header className="sticky top-0 z-20 border-b border-border/60 bg-background/80 backdrop-blur">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-        <Link href="/" className="group flex items-center gap-2.5">
+      <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
+        <Link href="/" className="group flex shrink-0 items-center gap-2.5">
           <Image
             src="/staffysoft-logo.jpg"
             alt="StaffySoft logo"
@@ -55,21 +56,25 @@ function SiteHeader() {
             Staffy<span className="text-brand-bright">Soft</span>
           </span>
         </Link>
-        <nav className="flex items-center gap-6 text-sm text-muted">
-          <Link href="/" className="transition-colors hover:text-foreground">
-            Products
-          </Link>
-          <Link
-            href="/about"
-            className="transition-colors hover:text-foreground"
-          >
-            About
-          </Link>
-          {/* Shared 3-state scheme cycle (System → Light → Dark). */}
-          <ColorSchemeToggle className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-surface-2 hover:text-foreground" />
+        <div className="flex items-center gap-2 sm:gap-6">
+          {/* Inline nav collapses into the MobileNav drawer below `sm`. */}
+          <nav className="hidden items-center gap-6 text-sm text-muted sm:flex">
+            <Link href="/" className="transition-colors hover:text-foreground">
+              Products
+            </Link>
+            <Link
+              href="/about"
+              className="transition-colors hover:text-foreground"
+            >
+              About
+            </Link>
+            {/* Shared 3-state scheme cycle (System → Light → Dark). */}
+            <ColorSchemeToggle className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-surface-2 hover:text-foreground" />
+          </nav>
           {/* AccountMenu when signed in, "Sign in" CTA when guest (#15). */}
           <HeaderAccount />
-        </nav>
+          <MobileNav />
+        </div>
       </div>
     </header>
   );

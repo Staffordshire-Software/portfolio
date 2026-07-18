@@ -38,7 +38,7 @@ export default function HeaderAccount() {
     return (
       <a
         href={CORE_ACCOUNTS_BASE}
-        className="rounded-lg bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-contrast transition-colors hover:bg-brand-bright"
+        className="whitespace-nowrap rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-brand-contrast transition-colors hover:bg-brand-bright sm:px-3.5"
       >
         Sign in
       </a>

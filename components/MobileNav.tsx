@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ColorSchemeToggle } from "@staffysoft/core-client/react";
@@ -14,6 +14,19 @@ import { ColorSchemeToggle } from "@staffysoft/core-client/react";
  */
 export default function MobileNav() {
   const [open, setOpen] = useState(false);
+
+  // The drawer only exists below `sm`: if the viewport crosses that
+  // breakpoint while it's open (rotation, window resize), every bit of its
+  // UI goes display:none but Radix's focus trap and scroll lock would stay
+  // active — so close it. 640px must match Tailwind's `sm`.
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 640px)");
+    const close = (e: MediaQueryListEvent) => {
+      if (e.matches) setOpen(false);
+    };
+    mq.addEventListener("change", close);
+    return () => mq.removeEventListener("change", close);
+  }, []);
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -39,13 +52,10 @@ export default function MobileNav() {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm sm:hidden" />
-        {/* aria-describedby={undefined}: the drawer is pure navigation, there
-            is no description to point at (silences Radix's missing-Description
-            warning). */}
-        <Dialog.Content
-          aria-describedby={undefined}
-          className="fixed inset-y-0 right-0 z-40 flex w-64 max-w-[80vw] flex-col gap-1 border-l border-border bg-background p-4 shadow-xl sm:hidden"
-        >
+        <Dialog.Content className="fixed inset-y-0 right-0 z-40 flex w-64 max-w-[80vw] flex-col gap-1 border-l border-border bg-background p-4 shadow-xl sm:hidden">
+          <Dialog.Description className="sr-only">
+            Site navigation links and color scheme setting.
+          </Dialog.Description>
           <div className="mb-2 flex items-center justify-between">
             <Dialog.Title className="text-sm font-semibold tracking-tight">
               Menu

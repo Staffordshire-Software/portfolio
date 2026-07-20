@@ -35,9 +35,18 @@ export default function HeaderAccount() {
   if (status === "loading") return null;
 
   if (!session || session.isGuest) {
+    // Straight into Core's sign-in, carrying the page the user is on so they
+    // land back here afterwards (via Core's validated post-sign-in redirect).
+    // For a user who *already* holds a Core SSO session — this header just
+    // couldn't see it, e.g. the very first visit before the session bridge
+    // warms — Core's signin page short-circuits and bounces them right back
+    // signed in, no form shown (silent SSO).
+    const signInHref = returnTo
+      ? `${CORE_ACCOUNTS_BASE}/auth/signin?returnTo=${encodeURIComponent(returnTo)}`
+      : `${CORE_ACCOUNTS_BASE}/auth/signin`;
     return (
       <a
-        href={CORE_ACCOUNTS_BASE}
+        href={signInHref}
         className="whitespace-nowrap rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-brand-contrast transition-colors hover:bg-brand-bright sm:px-3.5"
       >
         Sign in

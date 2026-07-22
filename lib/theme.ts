@@ -9,7 +9,7 @@
 // apps are in production; see issue #18).
 
 export type StaffySoftAppTheme = {
-  slug: "pp" | "tc" | "tg" | "bh" | "vn";
+  slug: "pp" | "tc" | "tg" | "bh" | "vn" | "mos";
   name: string;
   accent: { hex: `#${string}`; name: string };
   favicon: { letters: string }; // monogram (2 chars by convention)
@@ -25,4 +25,5 @@ export const APP_THEMES = {
   tg: { slug: "tg", name: "ToneGrid",            accent: { hex: "#d4a64a", name: "gold" },      favicon: { letters: "TG" } },
   bh: { slug: "bh", name: "Billing Helper",      accent: { hex: "#4f46e5", name: "indigo" },    favicon: { letters: "BH" } },
   vn: { slug: "vn", name: "Voice Note Atomizer", accent: { hex: "#dc2626", name: "record red" }, favicon: { letters: "VN" } },
+  mos: { slug: "mos", name: "MusicOS",           accent: { hex: "#3d5afe", name: "electric blue" }, favicon: { letters: "MO" } },
 } satisfies { [S in StaffySoftAppTheme["slug"]]: StaffySoftAppTheme & { slug: S } };

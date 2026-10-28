@@ -150,6 +150,22 @@ export const products: Product[] = [
     // product. The card offers "Visit" + a contact CTA instead.
   },
   {
+    id: "attuned",
+    name: "Attuned",
+    tagline:
+      "Guided connection practice for couples — plan a night, play, debrief.",
+    description:
+      "A couples intimacy app that turns awkward \"so what do you want to do\" into a guided evening — browse exercises together, build a plan, follow audio-guided sessions, and debrief afterward. Installable PWA with pairing, consent levels, and a journal.",
+    category: "Other",
+    status: "beta",
+    variant: "standard",
+    launchedAt: "2026-09-01",
+    productUrl: "https://attuned.staffysoft.com",
+    signupUrl: "https://attuned.staffysoft.com",
+    addToAccountUrl: addToAccountUrl("pocket-tantra"),
+    pricingNote: "Free while in beta",
+  },
+  {
     id: "tone-conditioner",
     name: "ToneConditioner",
     tagline: "Sessions that save your work and pick up where you left off.",
@@ -162,6 +178,20 @@ export const products: Product[] = [
     hero: "/products/tonesmith.png",
     productUrl: "https://toneconditioner.staffysoft.com",
     signupUrl: "https://toneconditioner.staffysoft.com",
+  },
+  {
+    id: "settle",
+    name: "Settle",
+    tagline:
+      "A pocket companion to DBT skills training — check in, look it up, get help now.",
+    description:
+      "Daily mood check-ins, a searchable pocket guide to every DBT skill, and a Help Now button that goes straight to your go-to de-escalation skills. 988 and your care team are one tap away on every screen.",
+    category: "Other",
+    status: "coming-soon",
+    variant: "roadmap",
+    launchedAt: "2027-01-01",
+    productUrl: "https://settle.staffysoft.com",
+    signupUrl: "https://settle.staffysoft.com",
   },
   {
     id: "interview-lifeguard",

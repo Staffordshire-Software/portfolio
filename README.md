@@ -5,9 +5,9 @@ The homepage is split into three sections, all driven by `data/products.ts`:
 
 - **What we've shipped** — a flagship (`variant: "hero"`) card followed by
   standard cards. Account products get **Add to my account** (existing
-  StaffySoft Core users) plus a try/demo CTA; showcase entries without an
-  `addToAccountUrl` (bespoke client sites) get a **Visit** link and a contact
-  CTA instead.
+  StaffySoft Core users) plus a try/demo CTA; apps not yet wired to an
+  account get **Try it** alone; `showcase: true` entries (bespoke client
+  sites) get a **Visit** link and a contact CTA instead.
 - **Platform** — a single, visually distinct card for StaffySoft Core (the
   `platform` export, not a product entry), linking to `/core`.
 - **On the roadmap** — compact `variant: "roadmap"` cards with no CTAs.
@@ -70,6 +70,7 @@ components/             ← Hero, HeroProductCard, ProductCard, PlatformCard,
      signupUrl: "https://myproduct.staffysoft.com",    // same until a signup page exists
      addToAccountUrl: addToAccountUrl("my-product"), // helper from lib/core.ts — omit for
                                                      // non-account showcase entries
+     // showcase: true,           // bespoke client site: Visit + contact CTAs
      pricingNote: "Free tier + $5/mo Pro", // optional
      // hero: "/my-product.png",  // optional, image under /public
    }

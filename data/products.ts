@@ -66,6 +66,12 @@ export type Product = {
   addToAccountUrl?: string;
   /** Optional short pricing note, e.g. "Free tier + $6/mo Pro". */
   pricingNote?: string;
+  /**
+   * Bespoke client work rather than a StaffySoft app (e.g. Dan's Music
+   * Studio). Showcase cards offer "Visit <domain>" + a contact CTA instead of
+   * the account / "Try it" buttons.
+   */
+  showcase?: boolean;
 };
 
 /**
@@ -100,21 +106,57 @@ export const platform: Platform = {
 // Display order matters: within each variant, cards render in array order.
 export const products: Product[] = [
   {
-    id: "voice-note-atomizer",
-    name: "Voice Note Atomizer",
+    id: "attuned",
+    name: "Attuned",
     tagline:
-      "Voice notes in, atomized tasks out — sent wherever you already work.",
+      "Guided connection practice for couples — plan a night, play, debrief.",
     description:
-      "Drop in a rambling voice note and get back clean, individual atoms — ideas, tasks, and quotes — delivered to the tools you already work in. Stop scrubbing through recordings to find the one thing you said.",
-    category: "Productivity",
-    status: "live",
+      "A couples intimacy app that turns awkward \"so what do you want to do\" into a guided evening — browse exercises together, build a plan, follow audio-guided sessions, and debrief afterward. Installable PWA with pairing, consent levels, and a journal.",
+    category: "Other",
+    status: "beta",
     variant: "hero",
+    launchedAt: "2026-09-01",
+    hero: "/products/attuned.png",
+    productUrl: "https://attuned.staffysoft.com",
+    signupUrl: "https://attuned.staffysoft.com",
+    addToAccountUrl: addToAccountUrl("pocket-tantra"),
+    pricingNote: "Free while in beta",
+  },
+  {
+    id: "settle",
+    name: "Settle",
+    tagline:
+      "A pocket companion to DBT skills training — check in, look it up, get help now.",
+    description:
+      "Daily mood check-ins, a searchable pocket guide to every DBT skill, and a Help Now button that goes straight to your go-to de-escalation skills. 988 and your care team are one tap away on every screen.",
+    category: "Other",
+    status: "beta",
+    variant: "standard",
+    launchedAt: "2026-10-28",
+    hero: "/products/settle.png",
+    productUrl: "https://settle.staffysoft.com",
+    signupUrl: "https://settle.staffysoft.com",
+    // No addToAccountUrl yet — Core registration is pending
+    // (Staffordshire-Software/core#146). The card offers "Try it" alone.
+    pricingNote: "Free while in beta",
+  },
+  {
+    id: "dans-music-studio",
+    name: "Dan's Music Studio",
+    tagline:
+      "Self-service, CMS-driven, bespoke marketing site for a local music school.",
+    description:
+      "What StaffySoft builds for local businesses, out in the wild: a bespoke marketing site for West Orange's neighborhood music school, driven by a CMS the studio runs itself — lessons, programs, and performances stay current without a developer in the loop.",
+    category: "Education",
+    status: "live",
+    variant: "standard",
     launchedAt: "2026-06-01",
-    hero: "/products/voice-note-atomizer.png",
-    productUrl: "https://voicenoteatomizer.staffysoft.com",
-    signupUrl: "https://voicenoteatomizer.staffysoft.com",
-    addToAccountUrl: addToAccountUrl("voice-note-atomizer"),
-    pricingNote: "$4.99/mo",
+    hero: "/products/dansmusicstudio.png",
+    showcase: true,
+    productUrl: "https://www.dansmusicstudio.com",
+    signupUrl: "https://www.dansmusicstudio.com",
+    // Deliberately no addToAccountUrl — a client showcase, not an account
+    // product. The card offers "Visit" + a contact CTA instead.
   },
   {
     id: "performer-prompter",
@@ -133,38 +175,21 @@ export const products: Product[] = [
     pricingNote: "Free while in friends beta",
   },
   {
-    id: "dans-music-studio",
-    name: "Dan's Music Studio",
+    id: "voice-note-atomizer",
+    name: "Voice Note Atomizer",
     tagline:
-      "Self-service, CMS-driven, bespoke marketing site for a local music school.",
+      "Voice notes in, atomized tasks out — sent wherever you already work.",
     description:
-      "What StaffySoft builds for local businesses, out in the wild: a bespoke marketing site for West Orange's neighborhood music school, driven by a CMS the studio runs itself — lessons, programs, and performances stay current without a developer in the loop.",
-    category: "Education",
+      "Drop in a rambling voice note and get back clean, individual atoms — ideas, tasks, and quotes — delivered to the tools you already work in. Stop scrubbing through recordings to find the one thing you said.",
+    category: "Productivity",
     status: "live",
     variant: "standard",
     launchedAt: "2026-06-01",
-    hero: "/products/dansmusicstudio.png",
-    productUrl: "https://www.dansmusicstudio.com",
-    signupUrl: "https://www.dansmusicstudio.com",
-    // Deliberately no addToAccountUrl — a client showcase, not an account
-    // product. The card offers "Visit" + a contact CTA instead.
-  },
-  {
-    id: "attuned",
-    name: "Attuned",
-    tagline:
-      "Guided connection practice for couples — plan a night, play, debrief.",
-    description:
-      "A couples intimacy app that turns awkward \"so what do you want to do\" into a guided evening — browse exercises together, build a plan, follow audio-guided sessions, and debrief afterward. Installable PWA with pairing, consent levels, and a journal.",
-    category: "Other",
-    status: "beta",
-    variant: "standard",
-    launchedAt: "2026-09-01",
-    hero: "/products/attuned.png",
-    productUrl: "https://attuned.staffysoft.com",
-    signupUrl: "https://attuned.staffysoft.com",
-    addToAccountUrl: addToAccountUrl("pocket-tantra"),
-    pricingNote: "Free while in beta",
+    hero: "/products/voice-note-atomizer.png",
+    productUrl: "https://voicenoteatomizer.staffysoft.com",
+    signupUrl: "https://voicenoteatomizer.staffysoft.com",
+    addToAccountUrl: addToAccountUrl("voice-note-atomizer"),
+    pricingNote: "$4.99/mo",
   },
   {
     id: "tone-conditioner",
@@ -179,21 +204,6 @@ export const products: Product[] = [
     hero: "/products/tonesmith.png",
     productUrl: "https://toneconditioner.staffysoft.com",
     signupUrl: "https://toneconditioner.staffysoft.com",
-  },
-  {
-    id: "settle",
-    name: "Settle",
-    tagline:
-      "A pocket companion to DBT skills training — check in, look it up, get help now.",
-    description:
-      "Daily mood check-ins, a searchable pocket guide to every DBT skill, and a Help Now button that goes straight to your go-to de-escalation skills. 988 and your care team are one tap away on every screen.",
-    category: "Other",
-    status: "coming-soon",
-    variant: "roadmap",
-    launchedAt: "2027-01-01",
-    hero: "/products/settle.png",
-    productUrl: "https://settle.staffysoft.com",
-    signupUrl: "https://settle.staffysoft.com",
   },
   {
     id: "interview-lifeguard",
